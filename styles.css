@@ -1,0 +1,120 @@
+#gameboard {
+    background-color: powderblue;
+    border: 15px solid powderblue;
+    width: 500px;
+    height: 500px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+h1, h3 {
+    text-align: center;
+}
+
+.gamepiece {
+    height: 120px;
+    width: 120px;
+    position: absolute;
+    color: black;
+    text-align: center;
+    line-height: 120px;
+}
+
+/* VERTICALLY POSITIONED */
+.position-1 {
+    top: 380px;
+}
+
+.position-2 {
+    top: 254px;
+}
+
+.position-3 {
+    top: 127px;
+}
+
+.position-4 {
+    top: 0px; 
+    /* unnecessary but including anyways */
+}
+
+/* HORIZONTALLY POSITIONED */
+.position-a {
+    left: 0px;
+    /* unnecessary but including anyways */
+}
+
+.position-b {
+    left: 127px;
+}
+
+.position-c {
+    left: 254px;
+}
+
+.position-d {
+    left: 380px;
+}
+
+.block-2 {
+    background-color: rgb(255, 204, 213);
+    font-size: 90px;
+}
+
+.block-4 {
+    background-color: rgb(255, 153, 170);
+    font-size: 90px;
+}
+
+.block-8 {
+    background-color: rgb(255, 113, 136);
+    font-size: 90px;
+}
+
+.block-16 {
+    background-color: rgb(243, 190, 255);
+    font-size: 90px;
+}
+
+.block-32 {
+    background-color: rgb(229, 115, 255);
+    font-size: 90px;
+}
+
+.block-64 {
+    background-color: rgb(196, 46, 255);
+    font-size: 90px;
+}
+
+.block-128 {
+    background-color: rgb(191, 255, 226);
+    font-size: 60px;
+}
+
+.block-256 {
+    background-color: rgb(113, 255, 191);
+    font-size: 60px;
+}
+
+.block-512 {
+    background-color: rgb(45, 255, 160);
+    font-size: 60px;
+}
+
+.block-1024 {
+    background-color: rgb(191, 212, 255);
+    font-size: 50px;
+}
+
+.block-2048 {
+    background-color: rgb(122, 166, 255);
+    font-size: 50px;
+}
+
+.block-4096 {
+    background-color: rgb(49, 118, 255);
+    font-size: 50px;
+}
