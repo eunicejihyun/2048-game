@@ -24,19 +24,19 @@ h1, h3 {
 }
 
 /* VERTICALLY POSITIONED */
-.position-1 {
+.position-0 {
     top: 380px;
 }
 
-.position-2 {
+.position-1 {
     top: 254px;
 }
 
-.position-3 {
+.position-2 {
     top: 127px;
 }
 
-.position-4 {
+.position-3 {
     top: 0px; 
     /* unnecessary but including anyways */
 }

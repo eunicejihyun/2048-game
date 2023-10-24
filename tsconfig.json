@@ -1,0 +1,11 @@
+{
+    "compilerOptions": 
+    {
+    //   "sourceMap": true,
+      "target": "es6",
+    //   "module": "commonjs",
+    //   "jsx": "react",
+    //   "moduleResolution": "classic",
+    //   "lib": [ "es2015", "dom",  "es2017" ]
+    }
+  }
