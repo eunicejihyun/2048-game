@@ -8,10 +8,89 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    border-radius: 20px;
 }
 
-h1, h3 {
+#gameover {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 150px;
     text-align: center;
+    animation-name: gameover;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes gameover {
+    0% {
+        color: #190482;
+    }
+
+    20% {
+        color: #793FDF;
+    }
+
+    40% {
+        color: #BB2525
+    }
+
+    60% {
+        color: #E966A0
+    }
+
+    80% {
+        color: #793FDF;
+    }
+
+    100% {
+        color: #190482;
+    }
+}
+
+#celebrate {
+    font-size: 50px;
+    left: 10%;
+    top: 30%;
+    position: absolute;
+}
+
+.gameover {
+    opacity: 10%;
+}
+
+h1 {
+    text-align: center;
+}
+
+h5 {
+    position: fixed;
+    bottom: 0;
+    right: 3%;
+}
+
+#topRibbon {
+    min-width: 400px;
+    width: 35%;
+    margin: auto;
+}
+
+button {
+    border: 5px solid powderblue;
+    border-radius: 15px;
+    background-color: white;
+    padding: 10px 20px;
+    float: right;
+}
+
+#scoreboard {
+    float: left;
+}
+
+.new {
+    opacity: 0.1;
 }
 
 .gamepiece {
@@ -21,6 +100,7 @@ h1, h3 {
     color: black;
     text-align: center;
     line-height: 120px;
+    border-radius: 20px;
 }
 
 /* VERTICALLY POSITIONED */
@@ -37,7 +117,7 @@ h1, h3 {
 }
 
 .position-3 {
-    top: 0px; 
+    top: 0px;
     /* unnecessary but including anyways */
 }
 
