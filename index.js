@@ -1,14 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// get gameboard
-var gameBoard = document.getElementById("gameboard");
-var gameOver = document.getElementById("gameover");
-var celebrate = document.getElementById("celebrate");
+// position options - similar to chess coordinates
 var horizontalPositionOptions = ["a", "b", "c", "d"];
 var verticalPositionOptions = ["0", "1", "2", "3"];
+// get HTML elements
+var gameBoard = document.getElementById("gameboard");
 var score = document.getElementById("score");
+var newGameButton = document.getElementById("newGame");
+var gameOver = document.getElementById("gameover");
+var celebrate = document.getElementById("celebrate");
 // instantiate gameboard
 var blockPositions;
+// ================================
+// start a new game by resetting the board and generating 2 game pieces
+// ================================
+function setupNewGame() {
+    resetBoard();
+    generateNewPiece();
+    generateNewPiece();
+}
+newGameButton.onclick = function () {
+    setupNewGame();
+};
+setupNewGame();
 // reset the gameboard
 function resetBoard() {
     celebrate.style.display = "none";
@@ -32,22 +46,17 @@ function resetBoard() {
     };
     score.textContent = "0";
 }
-// start a new game by resetting the board and generating 2 game pieces
-function setupNewGame() {
-    resetBoard();
-    generateNewPiece();
-    generateNewPiece();
+// ================================
+// end the game by showing the game over screen
+// ================================
+function endGame() {
+    gameOver.style.display = "block";
+    gameBoard.classList.add("gameover");
+    gameBoard.style.transition = "all 2s";
 }
-var newGameButton = document.getElementById("newGame");
-newGameButton.onclick = function () {
-    setupNewGame();
-};
-// setup JS object to look up class corresponding to block value
-var blockClass = {};
-for (var i = 1; i < 13; i++) {
-    var value = Math.pow(2, i);
-    blockClass[value] = "block-" + String(value);
-}
+// ================================
+// generate a new gameblock
+// ================================
 // check to see if a gamepiece is already in a certain position
 function overlapExists(horizontalPosition, verticalPosition) {
     if (blockPositions[horizontalPosition][Number(verticalPosition)] === null) {
@@ -58,6 +67,7 @@ function overlapExists(horizontalPosition, verticalPosition) {
     }
 }
 // recursive function - generate a random location until there is no overlap
+// I know this function is inefficient - I just wanted to have fun by creating a recursive function
 function generateRandomLocation() {
     var randomHorizontal = horizontalPositionOptions[Math.round(Math.random() * 3)];
     var randomVertical = verticalPositionOptions[Math.round(Math.random() * 3)];
@@ -67,10 +77,6 @@ function generateRandomLocation() {
     else {
         return [randomHorizontal, randomVertical];
     }
-}
-// update the gameboard with the new position
-function updateGameBoard(horizontalPosition, verticalPosition, gamePiece) {
-    blockPositions[horizontalPosition][Number(verticalPosition)] = gamePiece;
 }
 function generateNewPiece() {
     var classes = ["gamepiece", "new"];
@@ -89,7 +95,8 @@ function generateNewPiece() {
     var verticalPosition = newLocation[1];
     classes.push("position-".concat(horizontalPosition, " position-").concat(verticalPosition));
     newBlockElement.setAttribute("class", classes.join(" "));
-    updateGameBoard(horizontalPosition, verticalPosition, newGameBlock);
+    // update the gameboard with the new position
+    blockPositions[horizontalPosition][Number(verticalPosition)] = newGameBlock;
     gameBoard ? gameBoard.appendChild(newBlockElement) : alert("no game board");
     requestAnimationFrame(function () {
         newBlockElement.classList.remove("new");
@@ -100,6 +107,9 @@ function generateNewPiece() {
         checkBoard();
     }
 }
+// ================================
+// shift blocks based on the arrow key that was pressed
+// ================================
 document.onkeydown = function (e) {
     switch (e.key) {
         case "ArrowLeft":
@@ -116,13 +126,9 @@ document.onkeydown = function (e) {
             break;
     }
 };
-// FUNCTIONS USED IN SHIFT FUNCTIONS
-function isNotNull(x) {
-    return x !== null;
-}
-// after filtering nulls to shift blocks together, pad with nulls
+// after filtering nulls (empty spaces) to shift blocks together, pad with nulls
 function padWithNulls(blockGroup, direction) {
-    blockGroup = blockGroup.filter(isNotNull);
+    blockGroup = blockGroup.filter(function (x) { return x !== null; });
     var nullsNeeded = 4 - blockGroup.length;
     for (var i = 0; i < nullsNeeded; i++) {
         if (direction === "ArrowLeft" || direction === "ArrowDown") {
@@ -185,6 +191,9 @@ function combineBlocks(blockGroup, direction, purpose) {
     if (largestBlock > 1024) {
         celebrate.style.display = "block";
         celebrate.click();
+        setTimeout(function () {
+            celebrate.style.display = "none";
+        }, 3000);
     }
     if (purpose === "update") {
         blockGroup = padWithNulls(blockGroup, direction);
@@ -194,7 +203,7 @@ function combineBlocks(blockGroup, direction, purpose) {
         return [null];
     }
 }
-// apparently arrays can't be compared so they the OG group and new group need to be compared to see if they're the same
+// apparently arrays can't be compared so the original group of blocks and the new one need to be compared to see if they're the same
 function createComparisonString(blockGroup) {
     var group = [];
     blockGroup.forEach(function (item) {
@@ -221,9 +230,10 @@ function shiftVertical(direction) {
                 var column = blockPositions[position];
                 column.forEach(function (block, i) {
                     if (block !== null) {
-                        block.piece.setAttribute("class", "gamepiece position-".concat(position, " position-").concat(i, " block-").concat(block.value));
-                        block.piece.textContent = String(block.value);
-                        block.piece.style.transition = "all 0.5s";
+                        block = updateGameBlock(block, position, i);
+                        // block.piece.setAttribute("class", `gamepiece position-${position} position-${i} block-${block.value}`);
+                        // block.piece.textContent = String(block.value);
+                        // block.piece.style.transition = "all 0.5s"
                     }
                 });
             }
@@ -257,9 +267,10 @@ function shiftHorizontal(direction) {
                 horizontalPositionOptions.forEach(function (horizontalPosition, i) {
                     var block = row[i];
                     if (block !== null) {
-                        block.piece.setAttribute("class", "gamepiece position-".concat(horizontalPosition, " position-").concat(verticalPosition, " block-").concat(block.value));
-                        block.piece.textContent = String(block.value);
-                        block.piece.style.transition = "all 0.5s";
+                        block = updateGameBlock(block, horizontalPosition, verticalPosition);
+                        // block.piece.setAttribute("class", `gamepiece position-${horizontalPosition} position-${verticalPosition} block-${block.value}`);
+                        // block.piece.textContent = String(block.value);
+                        // block.piece.style.transition = "all 0.5s"
                     }
                     blockPositions[horizontalPosition][verticalPosition] = block;
                 });
@@ -269,6 +280,12 @@ function shiftHorizontal(direction) {
     if (shiftable) {
         generateNewPiece();
     }
+}
+function updateGameBlock(block, horizontalPosition, verticalPosition) {
+    block.piece.setAttribute("class", "gamepiece position-".concat(horizontalPosition, " position-").concat(verticalPosition, " block-").concat(block.value));
+    block.piece.textContent = String(block.value);
+    block.piece.style.transition = "all 0.5s";
+    return block;
 }
 function checkBoard() {
     console.log("CHECKING BOARD");
@@ -280,13 +297,7 @@ function checkBoard() {
         });
         var check = combineBlocks(row, "ArrowLeft", "check");
         if (check.length === 0) {
-            console.log("blocks combinable to the left");
-            return { value: true };
-            return "break";
-        }
-        check = combineBlocks(row, "ArrowRight", "check");
-        if (check.length === 0) {
-            console.log("blocks combinable to the right");
+            console.log("blocks combinable to the left/right");
             return { value: true };
         }
     };
@@ -294,26 +305,14 @@ function checkBoard() {
         var state_1 = _loop_1(i);
         if (typeof state_1 === "object")
             return state_1.value;
-        if (state_1 === "break")
-            break;
     }
     for (var i = 0; i < horizontalPositionOptions.length; i++) {
         var position = horizontalPositionOptions[i];
         var check = combineBlocks(blockPositions[position], "ArrowUp", "check");
         if (check.length === 0) {
-            console.log("blocks combinable upwards");
-            return true;
-        }
-        check = combineBlocks(blockPositions[position], "ArrowDown", "check");
-        if (check.length === 0) {
-            console.log("blocks combinable downwards");
+            console.log("blocks combinable upwards/downwards");
             return true;
         }
     }
     endGame();
 }
-function endGame() {
-    gameOver.style.display = "block";
-    gameBoard.classList.add("gameover");
-}
-setupNewGame();

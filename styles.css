@@ -1,3 +1,6 @@
+/* ============================================  */
+/* GAMEBOARD */
+/* ============================================  */
 #gameboard {
     background-color: powderblue;
     border: 15px solid powderblue;
@@ -11,6 +14,14 @@
     border-radius: 20px;
 }
 
+/* gameover class  for gameboard */
+.gameover {
+    opacity: 5%;
+}
+
+/* ============================================  */
+/* GAME OVER SCREEN */
+/* ============================================  */
 #gameover {
     margin: 0;
     position: absolute;
@@ -29,19 +40,15 @@
         color: #190482;
     }
 
-    20% {
+    25% {
         color: #793FDF;
     }
 
-    40% {
-        color: #BB2525
+    50% {
+        color: #ae1071
     }
 
-    60% {
-        color: #E966A0
-    }
-
-    80% {
+    75% {
         color: #793FDF;
     }
 
@@ -50,16 +57,30 @@
     }
 }
 
+/* ============================================  */
+/* CELEBRATION MESSAGE */
+/* ============================================  */
 #celebrate {
     font-size: 50px;
-    left: 10%;
-    top: 30%;
     position: absolute;
+    top: 40%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    z-index:1;
+    animation-name: celebrate;
+    animation-duration: 3s; 
+    display: block;
 }
 
-.gameover {
-    opacity: 10%;
+@keyframes celebrate {
+    to {
+        opacity: 0%;
+    }
 }
+
+/* ============================================  */
+/* HEADER / FOOTER */
+/* ============================================  */
 
 h1 {
     text-align: center;
@@ -71,13 +92,17 @@ h5 {
     right: 3%;
 }
 
+/* ============================================  */
+/* scoreboard / new game button ribbon */
+/* ============================================  */
+
 #topRibbon {
     min-width: 400px;
     width: 35%;
     margin: auto;
 }
 
-button {
+#newGame {
     border: 5px solid powderblue;
     border-radius: 15px;
     background-color: white;
@@ -88,6 +113,10 @@ button {
 #scoreboard {
     float: left;
 }
+
+/* ============================================  */
+/* GAMEPIECE */
+/* ============================================  */
 
 .new {
     opacity: 0.1;
@@ -102,6 +131,11 @@ button {
     line-height: 120px;
     border-radius: 20px;
 }
+
+
+/* ============================================  */
+/* POSITIONS */
+/* ============================================  */
 
 /* VERTICALLY POSITIONED */
 .position-0 {
@@ -138,6 +172,11 @@ button {
 .position-d {
     left: 380px;
 }
+
+/* ============================================  */
+/* BLOCK VALUES */
+/* ============================================  */
+
 
 .block-2 {
     background-color: rgb(255, 204, 213);
