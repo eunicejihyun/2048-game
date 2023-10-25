@@ -182,7 +182,7 @@ function combineBlocks(blockGroup, direction, purpose) {
             }
         }
     }
-    if (largestBlock > 8) {
+    if (largestBlock > 1024) {
         celebrate.style.display = "block";
         celebrate.click();
     }
