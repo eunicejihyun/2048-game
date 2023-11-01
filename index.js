@@ -55,7 +55,7 @@ function endGame() {
     gameBoard.style.transition = "all 2s";
 }
 // ================================
-// generate a new gameblock
+// generate a new gameblock (version 1)
 // ================================
 // check to see if a gamepiece is already in a certain position
 function overlapExists(horizontalPosition, verticalPosition) {
@@ -78,6 +78,29 @@ function generateRandomLocation() {
         return [randomHorizontal, randomVertical];
     }
 }
+// ================================
+// generate a new gameblock (version 2)
+// no recursion/fun version
+// ================================
+function generateLocation() {
+    var availableLocations = [];
+    horizontalPositionOptions.forEach(function (horizontalPosition) {
+        var currentColumn = blockPositions[horizontalPosition];
+        if (currentColumn.includes(null)) {
+            currentColumn.forEach(function (value, index) {
+                if (!value) {
+                    availableLocations.push([horizontalPosition, index]);
+                }
+            });
+        }
+    });
+    var locationOptionsCount = availableLocations.length;
+    if (locationOptionsCount > 0) {
+        console.log(availableLocations);
+        var randomIndex = Math.floor(Math.random() * locationOptionsCount);
+        return availableLocations[randomIndex];
+    }
+}
 function generateNewPiece() {
     var classes = ["gamepiece", "new"];
     var newBlockElement = document.createElement("div");
@@ -90,7 +113,8 @@ function generateNewPiece() {
         "value": randomValue,
     };
     // get available location
-    var newLocation = generateRandomLocation();
+    // let newLocation = generateRandomLocation();
+    var newLocation = generateLocation();
     var horizontalPosition = newLocation[0];
     var verticalPosition = newLocation[1];
     classes.push("position-".concat(horizontalPosition, " position-").concat(verticalPosition));
